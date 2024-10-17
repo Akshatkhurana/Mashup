@@ -34,11 +34,12 @@ app.post('/mashup', (req, res) => {
 
   pythonProcess.on('close', (code) => {
     if (code === 0) {
-      const mashupPath = path.join(__dirname, 'public', 'mashup.mp3'); // Save file in 'public' directory
+      const mashupPath = path.join(__dirname, 'public', 'mashup.mp3');
 
       if (fs.existsSync(mashupPath)) {
-        const fileUrl = `http://localhost:${PORT}/public/mashup.mp3`; // Serve the file via URL
-        res.json({ url: fileUrl }); // Send the file URL to the frontend
+        const fileUrl = `http://localhost:${PORT}/public/mashup.mp3`;
+
+        res.json({ url: fileUrl });
       } else {
         res.status(500).json({ error: 'Mashup file not found' });
       }
