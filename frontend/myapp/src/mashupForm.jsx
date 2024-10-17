@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function MashupApp() {
@@ -8,9 +8,22 @@ function MashupApp() {
   const [downloadUrl, setDownloadUrl] = useState('');
   const [isCreating, setIsCreating] = useState(false); // State to track creation status
 
+  useEffect(() => {
+    // Trigger automatic download when the URL is available
+    if (downloadUrl) {
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.setAttribute('download', 'mashup.mp3');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link); // Clean up the link after the click
+    }
+  }, [downloadUrl]); // The effect runs when `downloadUrl` is updated
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsCreating(true); // Set creating status to true
+    setDownloadUrl(''); // Clear previous download URL before creating a new mashup
 
     try {
       const response = await axios.post('http://localhost:5000/mashup', {
@@ -38,7 +51,8 @@ function MashupApp() {
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
       width: '100%',
       maxWidth: '400px',
-      margin: 'auto',
+      marginBottom: '200px',
+      marginLeft: '450px'
     },
     header: {
       textAlign: 'center',
@@ -77,16 +91,6 @@ function MashupApp() {
       textAlign: 'center',
       marginTop: '20px',
       color: '#28a745',
-    },
-    downloadLink: {
-      display: 'block',
-      textAlign: 'center',
-      marginTop: '10px',
-      color: 'white',
-      backgroundColor: '#28a745',
-      padding: '10px',
-      borderRadius: '5px',
-      textDecoration: 'none',
     },
   };
 
@@ -129,16 +133,12 @@ function MashupApp() {
         </button>
       </form>
 
-      {downloadUrl && (
+      {isCreating && (
         <div style={styles.result}>
-          <h3>Your mashup is ready!</h3>
-          <a href={downloadUrl} download="mashup.mp3" style={styles.downloadLink}>
-            Click here to download the mashup
-          </a>
+          <h3>Generating your mashup...</h3>
         </div>
       )}
     </div>
   );
 }
-
 export default MashupApp;

@@ -22,7 +22,7 @@ app.post('/mashup', (req, res) => {
   }
 
   // Spawn the Python process
-  const pythonProcess = spawn('python3', ['mashup.py', singer, numSongs, duration]);
+  const pythonProcess = spawn('python', ['mashup.py', singer, numSongs, duration]);
 
   pythonProcess.stdout.on('data', (data) => {
     console.log(`Python Output: ${data}`);
