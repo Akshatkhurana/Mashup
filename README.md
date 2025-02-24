@@ -42,8 +42,7 @@ cd frontend
 npm install
 npm run dev
 ```
-
-[Img not visible](https://github.com/Akshatkhurana/Mashup/blob/main/images/p3.png)
+![Alt Text](https://github.com/Akshatkhurana/Mashup/blob/main/images/p3.png)
 
 ## Usage
 1. Open the web app in your browser.
